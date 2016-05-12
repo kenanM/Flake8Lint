@@ -392,7 +392,12 @@ class SublimeView(object):
                                                project_config)
             for param in FLAKE8_SETTINGS_KEYS:
                 if param in flake8_config:
-                    result[param] = flake8_config.get(param)
+                    existing_value = result.get(param)
+                    new_value = flake8_config.get(param)
+                    if existing_value != new_value:
+                        log('Flake8 config file replaces %s=%s with %s'.format(
+                            param, existing_value, new_value))
+                        result[param] = new_value
 
         return result
 
